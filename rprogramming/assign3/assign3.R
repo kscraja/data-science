@@ -16,7 +16,7 @@ columnNames <- names(data)
 
 columnNames[11] <- "heart attack"
 columnNames[17] <- "heart failure"
-columnNames[23] <- "penumonia"
+columnNames[23] <- "pneumonia"
 names(data) <- columnNames
 
 isValidState <- function(state) {
@@ -55,3 +55,42 @@ best <- function(state, outcome) {
 #print(best("TX", "heart attack"))
 #print(best("TX", "heart failure"))
 #print(best("MD", "heart attack"))
+
+rankhospital <- function(state, outcome, rank) {
+  # lowest mortality column: 11 - Heart attack, 17 - Heart-failure, 23 - pneumonia 
+  if (!isValidOutcome(outcome)) {
+    stop("invalid outcome")
+  }
+  if (!isValidState(state)) {
+    stop("invalid state")
+  }
+  
+  mortalityOfOutcome <- data.frame(HospitalName = baseData$Hospital.Name, State=baseData$State, Mortality=as.numeric(baseData[[outcome]]))
+  #removing NA from the dataframe
+  mortalityOfOutcome <- mortalityOfOutcome[complete.cases(mortalityOfOutcome),]
+  
+  #splitting the dataset by state 
+  s <- split(mortalityOfOutcome, mortalityOfOutcome$State)
+  #picking the state data
+  stateMortality <- s[[state]]
+  stateMortality$Order <- order(stateMortality$Mortality, stateMortality$HospitalName)
+  bestRank = 1
+  worstRank = nrow(stateMortality)
+  if (rank == "best") {
+    rank <- bestRank
+  } else if (rank == "worst") {
+    rank <- worstRank
+  }
+  
+  if (rank <  bestRank || rank > worstRank) {
+    as.character(NA)
+  } else {
+    hospitalAtGivenRank <- stateMortality[stateMortality$Order[rank], ]
+    r <- hospitalAtGivenRank$HospitalName
+    as.character(r)
+  }
+}
+
+#print(rankhospital("TX", "heart failure", 4))
+#print(rankhospital("MD", "heart attack", "worst"))
+#print(rankhospital("MN", "heart attack", 5000))
