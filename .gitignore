@@ -1,3 +1,17 @@
 .Rproj.user
 .Rhistory
 .RData
+*.csv
+*.zip
+*.zip
+*.pdf
+*.png
+*.xml
+*.svg
+assign*
+*.Rproj
+exploratory_data_analysis/ExData_Plotting1/
+getting_cleaning/project/
+getting_cleaning/w2/.httr-oauth
+getting_cleaning/w3/data/
+rprogramming/w4/Rprof.out
