@@ -1,0 +1,70 @@
+My First knitr document
+=====================
+
+```{r setoptions, echo=TRUE, results="asis", fig.height=4, fig.width=4}
+opts_chunk$set(echo = FALSE, results="hide")
+```
+
+This is some text (i.e a "text chuck")
+
+Here is a code chunk
+
+```{r}
+set.seed(1)
+x <- rnorm(100)
+mean(x)
+```
+
+# My First knitr doc
+Chandra Koduru
+
+## Introduction
+
+```{r simulation, echo=FALSE, results="hide"}
+set.seed(1)
+x <- rnorm(100)
+mean(x)
+```
+
+```{r computetime, echo=FALSE}
+time <- format(Sys.time(), "%a %b %d %X %Y")
+rand <- rnorm(1)
+```
+
+The current time is **`r time`**. My favorite random number is `r rand`.
+
+```{r simulatedata, echo=TRUE}
+x <- rnorm(100)
+y <- x + rnorm(100, sd = 0.5)
+```
+
+Here is a scatter plot of the data
+```{r scatterplot, fig.height=4}
+par(mar = c(5,4,1,1), las=1)
+plot(x, y, main="My Simulated Data", xlab="x label")
+```
+
+* embedded image is base 64 encoded
+
+## Presenting tabular data
+
+```{r fitmodel, echo=TRUE}
+library(datasets)
+data(airquality)
+fit <- lm(Ozone ~ Wind + Temp + Solar.R, data = airquality)
+```
+
+Here is a table of regression coefficients.
+```{r showtable, results="asis"}
+library(xtable)
+xt <- xtable(summary(fit))
+print(xt, type="html")
+```
+
+## Setting global options
+* for every code chunk
+* such as supressing echo
+
+## Cachcing Computations
+
+* set 'cache=TRUE' option can be set on chunk-by-chunk basis to store results of computation

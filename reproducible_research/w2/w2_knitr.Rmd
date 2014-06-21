@@ -1,0 +1,31 @@
+What is knitr
+========================================================
+
+* R package
+* Supports Rmarkdown, Latex, HTML as documentation language
+* Can export to PDF, HTML
+
+Requirements
+================
+
+* recent version of R
+* text editor
+* some knowledge of markdown, latex, html
+
+What is **knitr** good for
+==========================
+
+* manuals
+* technical documents
+* tutorials
+* reports
+* data processing documents/summaries
+
+what is not good for
+==================
+
+* long research articles
+* complex computations
+* precise formatting
+
+
