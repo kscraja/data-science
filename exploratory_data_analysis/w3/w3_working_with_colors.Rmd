@@ -1,0 +1,61 @@
+## Plotting and Color
+
+* the default color schemes for most plots in R are bad !
+* There are functions in R and in external packages that are very handy
+
+* colors() - list of color names
+* colorRamp() - takes a palette of colors and returns a function(0 to 1) 
+    - gray is an example - with palette being white and black
+* colorRampPalette() - take a palette of colors and return a function that takes integer arguments and returns a vector of colors interpolating the palette 
+    - heat.colors, topo.colors
+    
+```{r}
+pal <- colorRamp(c("red", "blue"))
+pal(0)
+pal(0.5)
+pal(1)
+pal(seq(0, 1, len=10))
+```
+
+```{r}
+pal <- colorRampPalette(c("red", "yellow", "black"))
+pal(2)
+pal(30)
+```
+
+## RColorBrewer Package
+
+* One package on CRAN that contains useful color palettes
+* 3 palettes
+    - Sequential
+    - Diverging (showing deviation from mean etc..)
+    - Qualitative
+* Palette information can be used in conjunction with colorRamp(), colorRampPalette()
+
+```{r}
+library(RColorBrewer)
+cols <- brewer.pal(3, "BuGn")
+cols
+pal <- colorRampPalette(cols)
+image(volcano, col=pal(20))
+```
+
+```{r}
+x <- rnorm(10000)
+y <- rnorm(10000)
+smoothScatter(x, y) # reflects density of distribution
+```
+
+## Some other plotting notes
+
+* rgb - function decimal to hexdecimal
+* alpha param for rgb
+* the colorspace package can be used for a different control over colors
+
+
+## Scatter plot with transparency
+```{r}
+par(mfrow=c(1,2))
+plot(x, y, pch=19) # blotchy
+plot(x, y, col=rgb(0, 0, 0, 0.2), pch=19)
+```

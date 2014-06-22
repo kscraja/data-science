@@ -1,0 +1,22 @@
+## Missing Values
+
+```{r}
+dataMatrix2 <- dataMatrixOrdered
+## randomly insert some missing data
+dataMatrix2[sample(1:100, size=40, replace=FALSE)]  <- NA
+svd1 <- svd(scale(dataMatrix2)) # doesn't work
+```
+
+## Using imputing {impute} package
+
+```{r}
+library(impute)
+dataMatrix2 <- dataMatrixOrdered
+dataMatrix2[sample(1:100, size=40, replace=FALSE)] <- NA
+dataMatrix2 <- impute.knn(dataMatrix2)$data
+svd1 <- svd(scale(dataMatrixOrdered));
+svd2 <- svd(scale(dataMatrix2))
+par(mfrow=c(1, 2));
+plot(svd1$v[, 1], pch=19)
+plot(svd2$v[, 1], pch=19)
+```

@@ -1,0 +1,98 @@
+# Hierarachical Clustering
+
+* Clustering organizes things that are close into groups
+
+Different clustering algorithms are variations on
+
+* How do we define close ?
+* How do we group things ?
+* How do we visualize the grouping ?
+* How do we interpret the group ?
+
+* An agglomerative Approaches
+    * Find closest two things
+    * put them together (create a new data point, merge of the above two points)
+    * find next closest
+
+* Requires
+    
+    * a defined distance
+    * a merging approach
+    
+* Produces
+    * a tree showing how close things are to each other
+    
+### How do we define close ?
+
+* Most important step
+    - Garbage in -> Garbage out
+
+* Distance or similarity
+    - Continuous - euclidean distance (straight line distance)
+    - Continuous - correlation similarity
+    - Binary - manhattan distance
+    
+* Pick a distance/similarity that makes sense for that problem
+
+### Euclidean
+
+* euclidean distance -> sqrt(sqr(x2-x1) + sqr(y2-y1))
+* bird flight distance
+* easy for higher dimensional problems
+
+### Manhattan 
+* abs(x2-x1) + abs(y2 - y1) + ... + abs(z2 - z1)
+
+## Hierarchical clustering - example
+
+````{r}
+set.seed(1234)
+par(mar=c(0, 0, 0, 0))
+x <- rnorm(12, mean=rep(1:3, each=4), sd = 0.2)
+y <- rnorm(12, mean=rep(c(1,2,1), each=4), sd = 0.2)
+plot(x, y, col="blue", pch=19, cex=2)
+text(x + 0.05, y + 0.05, labels=as.character(1:12))
+```
+
+```{r}
+dataFrame <- data.frame(x = x, y = y)
+distxy <- dist(dataFrame) # takes first two columns, defaults to euclidean distance
+```
+
+### Hierarchical clustering using hclust
+```{r}
+hClustering <- hclust(distxy)
+par(mar=c(4, 4, 4, 4))
+plot(hClustering)
+```
+
+```{r}
+source("./myplclust.R")
+myplclust(hClustering, lab=rep(1:3, each=4), lab.col=rep(1:3, each=4))
+```
+
+## Mergin points
+ 
+* average linkage - average of x,y coordinates of two clusters
+* complete linkage - average of two furthest points in the clusters
+
+```{r}
+set.seed(143)
+dataMatrix <- as.matrix(dataFrame)[sample(1:12),]
+heatmap(dataMatrix)
+```
+
+## Notes
+
+* gives an idea of the relationships between variables/observations
+
+* The picture may be unstable
+    - Change a few points
+    - Have different missing values
+    - Pick a different strategy
+    - Change the merging strategy
+    - Change the scale of points for one variable
+    
+* But it is deterministic
+* Choosing where to cut isn't always obvious
+* Should be primarily used for exploration
